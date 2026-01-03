@@ -1,0 +1,27 @@
+{
+    "description": "Map Option+Tab to Mission Control (Ctrl+Up), disabled in RDP",
+    "manipulators": [
+        {
+            "conditions": [
+                {
+                    "bundle_identifiers": [
+                        "^com\\.microsoft\\.rdc\\.macos$",
+                        "^com\\.microsoft\\.rdc\\.mac$"
+                    ],
+                    "type": "frontmost_application_unless"
+                }
+            ],
+            "from": {
+                "key_code": "tab",
+                "modifiers": { "mandatory": ["option"] }
+            },
+            "to": [
+                {
+                    "key_code": "up_arrow",
+                    "modifiers": ["left_control"]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}

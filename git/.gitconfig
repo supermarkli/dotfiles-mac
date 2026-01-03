@@ -1,0 +1,14 @@
+[user]
+	name = mark
+	email = 12532588@mail.sustech.edu.cn
+
+[core]
+	excludesfile = ~/.gitignore_global
+
+[init]
+	defaultBranch = main
+
+# macOS 某些应用会让 git status 显示文件为 modified
+# 这个设置告诉 git 这些文件不需要 tracked
+[hcore]
+	trustctime = false

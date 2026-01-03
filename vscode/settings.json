@@ -1,0 +1,14 @@
+{
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.rightClickBehavior": "paste",
+    "workbench.colorTheme": "Monokai Classic",
+    "workbench.iconTheme": "Monokai Classic Icons",
+    "editor.mouseWheelZoom": true,
+    "terminal.integrated.mouseWheelZoom": true,
+    "terminal.integrated.fontSize": 14,
+    "editor.stickyScroll.enabled": false,
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.fontFamily": "MesloLGS Nerd Font Mono",
+    "http.proxy": "http://127.0.0.1:7897"
+}

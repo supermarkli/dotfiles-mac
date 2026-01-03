@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C:*)",
+      "Bash(git -C ~/.dotfiles reflog)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "mcp__filesystem__get_file_info",
+      "mcp__filesystem__list_directory",
+      "Bash(readlink:*)",
+      "Bash(test:*)",
+      "mcp__filesystem__directory_tree",
+      "Bash(git config:*)",
+      "mcp__filesystem__create_directory"
+    ]
+  }
+}

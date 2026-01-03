@@ -1,0 +1,27 @@
+{
+    "description": "RDP Only: Map Cmd+, to Ctrl+,",
+    "manipulators": [
+        {
+            "conditions": [
+                {
+                    "bundle_identifiers": [
+                        "^com\\.microsoft\\.rdc\\.macos$",
+                        "^com\\.microsoft\\.rdc\\.mac$"
+                    ],
+                    "type": "frontmost_application_if"
+                }
+            ],
+            "from": {
+                "key_code": "comma",
+                "modifiers": { "mandatory": ["left_command"] }
+            },
+            "to": [
+                {
+                    "key_code": "comma",
+                    "modifiers": ["left_control"]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
