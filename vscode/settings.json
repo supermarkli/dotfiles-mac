@@ -8,7 +8,7 @@
         "visualEffectState": "always",
         "backgroundMaterial": "acrylic"
     },
-    "custom-ui-style.font.sansSerif": "",
+    "custom-ui-style.font.sansSerif": "MesloLGS Nerd Font Mono",
     "custom-ui-style.stylesheet": {
         "body > .monaco-workbench": "background-color: #00000000 !important;",
         ".monaco-workbench .part.titlebar": "background-color: transparent !important;",
