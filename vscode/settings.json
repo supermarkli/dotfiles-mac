@@ -115,7 +115,6 @@
 
     // ===== 工作区 =====
     "update.mode": "none",
-    "chat.disableAIFeatures": true,
     "security.workspace.trust.enabled": false,
     "telemetry.telemetryLevel": "off",
     "breadcrumbs.enabled": false,
