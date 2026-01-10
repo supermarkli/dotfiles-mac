@@ -51,6 +51,10 @@ else
     log_warn "VS Code not installed, skipping..."
 fi
 
+# Claude
+symlink "$DOTFILES_ROOT/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+symlink "$DOTFILES_ROOT/.claude/settings.local.json" "$HOME/.claude/settings.local.json"
+
 # Karabiner (已存在配置，无需 symlink)
 log_info "Karabiner: configuration in place, skipping..."
 
