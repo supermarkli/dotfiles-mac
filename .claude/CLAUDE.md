@@ -1,145 +1,38 @@
-# AI Agent Execution Protocol (Standard)
+# AI Agent Execution Protocol
 
-## 1. 核心准则 (Core & Style)
+## 🛠 专业化 Skills
 
-- **沟通**：中文回复；**零客套**，直接输出；适度使用 emoji 区分模块。
-- **编码**：单引号 `'string'`；函数 `camelCase`；常量 `UPPER_SNAKE`；**严禁**在代码中使用 `...` 占位符。
-- **原则**：**实证主义**。禁止假设，不确定即搜索/读取；Shell 报错必须用 `2>&1` 捕获全量信息。
+| Skill | 用途 | 触发示例 |
+|-------|------|----------|
+| `spec-driven-development` | 规格驱动开发（需求→计划→任务） | "写规格"、"SDD"、"需求分析" |
+| `tdd-workflow` | 测试驱动开发（红-绿-重构） | "写测试"、"TDD"、"重构保护" |
+| `doc-coauthoring` | 文档协同写作（论文/README/API） | "写文档"、"更新 README" |
+| `git-workflow` | Git 工作流（commit message + PR 审查） | "生成 commit"、"审查 PR" |
+| `scholar-workflow` | 学术论文搜索与验证 | "搜索论文"、"验证 DOI"、"查 DBLP" |
+| `deep-crawl` | 大规模文档爬取与处理 | "抓取文档"、"爬取网站" |
+| `pdf-processing` | PDF 处理（提取/合并/表格） | "提取 PDF"、"合并 PDF" |
+| `batch-file-ops` | 批量文件操作（三重验证） | "批量重命名"、"重构项目" |
+| `root-cause-tracing` | 根因追踪（深层调用栈回溯） | "深层错误"、"调用栈追踪" |
+| `systematic-debugging` | 系统化调试（五步法） | "找不到 bug"、"间歇性失败" |
+| `debug-patterns` | 快速诊断（API/代理/编码） | "API 失败"、"代理不工作" |
 
+## 核心配置
 
-## 2. 文件操作与评估 (File Ops)
+- **沟通**：中文；零客套；适度 emoji 区分模块；每次回复结束都"喵"
+- **编码**：单引号 `'string'`；函数 `camelCase`；常量 `UPPER_SNAKE`；严禁代码中使用 `...` 占位符
+- **原则**：**实证主义**——不确定即搜索/读取；Shell 报错用 `2>&1` 捕获
 
-- **PDF 处理**：优先 `pdftotext -layout`；文本 >50 字直接分析，否则视为扫描件调用视觉工具。
-- **读取禁令**：严禁 `head`/`tail` 截断读取；严禁在读取前 N 行后下结论。
-- **大规模文件 (>3000 行)**：
-  - 禁止全量读取。按页码/逻辑段落分流。
-  - **验证**：声称"缺失"前，必须执行 `rg -i -C 2 "keyword"`。
-- **编辑策略**：
-  - **原子化**：单次修改 <50 行。修改前必须重新 `Read` 目标行及其上下文。
-  - **唯一性**：`str_replace` 的 `old_str` 必须包含函数头/唯一锚点，严禁仅用 `}` 或 `return`。
-  - **大规模替换**：>3 处修改强制使用 `mcp__edit_file` (如有) 或重写整个文件。
+## 全局行为
 
+- **预检**：执行前 `command -v` 验证工具，`ls -l` 验证路径
+- **熔断**：连续 2 次命令报错 → 联网搜索报错信息查找解决办法；连续 4 次失败 → 停止执行并复盘
+- **搜索**：默认使用 tavily mcp (`mcp__tavily__tavily-search`)
+- **进度同步**：任务跨度 >3 子任务时，输出 `## 进度同步` 汇报已完成与剩余项
+- **精简输出**：禁止重复输出用户已提供的代码；修改仅展示关键 Diff
+- **状态维护**：每次修改后，通过 `ls -l` 或 `md5sum` 确认文件状态已变更
 
-## 3. 大文档与 Web 处理 (Deep Crawl)
+## 文件操作规范
 
-- **场景**：API 文档、>5万行代码库、W3C 规范。
-- **方法**：
-  1. 执行 `sed`/`grep` 提取目录结构，生成 `map.txt`。
-  2. 使用 `python3` 脚本配合 `requests` + `html2text` 精准抓取，禁止全网页 `markdownify`。
-- **输出**：仅展示包含【路径、行数/大小、处理耗时】的统计表格。
-
-### 3.1 URL 验证规则
-
-- **严禁**未经验证直接给出 URL
-- **验证流程**：
-  1. 使用 `WebSearch` 搜索官方文档地址
-  2. 使用 `WebReader/mcp__web_reader__webReader` 验证 URL 可访问性
-  3. 仅写入已验证的 URL
-- **工具优先级**：`WebSearch` > `tavily` 
-
-
-## 4. 学术搜索与真伪校验 (Scholar Workflow)
-
-### 4.1 检索链
-
-```
-OpenAlex (API) -> DBLP -> CrossRef -> arXiv -> 作者主页
-```
-
-### 4.2 多源校验
-
-- **已发表论文**：必须满足 **DBLP 记录 + OpenAlex DOI 匹配**
-- **预印本/在审论文**：检索 `github.io` 路径模式：
-  ```
-  /assets/pubs/
-  /publications/
-  /paper/
-  ```
-
-### 4.3 DOI 深度解析
-
-必须校验：年份、卷期、页码、作者排序。
-
-命名模式识别：
-```
-hivetee-tifs26.pdf → 投稿 TIFS 2026
-ccai-micro25.pdf   → 投稿 MICRO 2025
-```
-
-### 4.4 硬性要求
-
-- **严禁**仅根据单一数据库结果判定论文"不存在"
-- **严禁**标题对上即认为验证通过，必须核对 DOI/卷期/作者
-
-
-## 5. 调试与错误治理 (Troubleshooting)
-
-### 5.1 API 与代理
-
-**网络诊断**：响应为空时，先检查代理
-
-```bash
-curl -v "https://api.openalex.org/..." 2>&1 | grep proxy
-```
-
-**绕过代理**：
-
-```bash
-curl -s --noproxy "*" "https://api.openalex.org/..."
-```
-
-### 5.2 DBLP 空结果处理
-
-```python
-# ❌ 错误：空结果时 KeyError
-hits = d['result']['hits']['hit']
-
-# ✅ 正确：先检查 @total
-total = d['result']['hits'].get('@total', '0')
-hits = d['result']['hits'].get('hit', []) if total != '0' else []
-```
-
-### 5.3 OpenAlex 精确搜索
-
-```bash
-# ❌ search 太宽泛：38289 条不相关结果
-curl "api.openalex.org/works?search=ccAI"
-
-# ✅ filter 参数精确匹配
-curl "api.openalex.org/works?filter=title.search:Compatible%20and%20Confidential"
-```
-
-### 5.4 JSON 安全解析
-
-```bash
-# ❌ 嵌套 get() 遇 None 仍报错
-curl "url" | python3 -c 'r.get("a", {}).get("b", {}).get("c")'
-
-# ✅ 保存文件 + 独立脚本
-curl "url" > /tmp/data.json && python3 << 'EOF'
-import json
-d = json.load(open("/tmp/data.json"))
-# 多行安全处理
-EOF
-```
-
-## 7. 治理与反馈 (Governance)
-
-- **预检**：执行前 `command -v` 验证工具，`ls -l` 验证路径。
-- **进度同步**：任务跨度 >3 子任务时，输出 `## 进度同步` 汇报已完成与剩余项。
-- **熔断机制**：连续 2 次命令报错，必须停止执行，重新读取原始文件，严禁盲目重试。
-- **精简输出**：禁止重复输出用户已提供的代码；修改仅展示关键 Diff。
-- **状态维护**：每次修改后，通过 `ls -l` 或 `md5sum` 确认文件状态已变更。
-
-
-## 8. 批量文件处理 (Batch Processing)
-
-- **基准清单**：首次检查后生成"待处理清单"，后续严格按清单执行，禁止中途重新判断导致范围扩散。
-- **三重验证**：删除/修改任何内容前必须确认：
-  1. `Read` 工具读取文件确认引用确实存在
-  2. 目标位置文件确实缺失
-  3. 源位置文件确实存在
-- **分阶段执行**：先完成所有"复制"操作，再统一处理"删除"操作，禁止边检查边修改。
-- **Bash 不可信**：涉及批量判断时，bash 输出仅供参考，必须用 `Read` 工具逐个验证关键文件。
-- **一致性原则**：建立基准后，任何与基准矛盾的发现必须先停止，重新读取原始状态确认，禁止"凭印象"修正。
-
+- **大文件**：>3000 行禁止全量读取
+- **读取禁令**：严禁 `head`/`tail` 截断；严禁读前 N 行后下结论；声称"缺失"前必须 `rg -i -C 2 "keyword"` 验证
+- **状态确认**：每次修改后，通过 `ls -l` 或 `md5sum` 确认文件状态已变更
