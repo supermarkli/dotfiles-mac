@@ -1,0 +1,18 @@
+{
+    "description": "全局：Fn+F 全屏 (模拟 Ctrl+Cmd+F，兼容不支持新快捷键的应用)",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "f",
+                "modifiers": { "mandatory": ["fn"] }
+            },
+            "to": [
+                {
+                    "key_code": "f",
+                    "modifiers": ["left_control", "left_command"]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}

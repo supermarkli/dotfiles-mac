@@ -1,11 +1,12 @@
 {
-    "description": "Finder专用：Fn+Backspace 删除文件 (模拟 Cmd+Del)",
+    "description": "Finder & VSCode：Fn+Backspace → Cmd+Backspace",
     "manipulators": [
         {
             "conditions": [
                 {
                     "bundle_identifiers": [
-                        "^com\\.apple\\.finder$"
+                        "^com\\.apple\\.finder$",
+                        "^com\\.microsoft\\.VSCode$"
                     ],
                     "type": "frontmost_application_if"
                 }
