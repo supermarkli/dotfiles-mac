@@ -1,0 +1,13 @@
+{
+    "description": "Disable Ctrl+Space (Input Source Toggle)",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "spacebar",
+                "modifiers": { "mandatory": ["control"] }
+            },
+            "to": [],
+            "type": "basic"
+        }
+    ]
+}
